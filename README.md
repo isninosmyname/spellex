@@ -15,6 +15,10 @@ Hello!, *Spellex* is an extension to correct your spell.
 
   (Note: you require a OpenRouter api key.)
 
+  # Version
+
+  Spellex's version right now is: `1.0`
+
   # End
 
   Hope you enjoy the extension!
