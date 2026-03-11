@@ -1,9 +1,9 @@
 # Spellex
-Hello!, *Spellex* is an extension to correct your spell.
+Hello!, *Spellex* is an extension to correct your spell, it uses `vite, ts` to work.
 
 # INSTALL INSTRUCTIONS
 
-  First download the zip and do `npm install` on the terminal. then,
+  First clone the repo and do `npm install` on the terminal. then,
 
   Go to the URL `(your browser)://extensions`.  in the right upper corner, there will be a switch, 
   
