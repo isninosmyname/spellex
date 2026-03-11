@@ -17,7 +17,7 @@ Hello!, *Spellex* is an extension to correct your spell.
 
   # Version
 
-  Spellex's version right now is: `1.0`
+  Spellex's version right now is: `1.1`
 
   # End
 
