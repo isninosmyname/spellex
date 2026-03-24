@@ -9,7 +9,7 @@ Hello!, *Spellex* is an extension to correct your spell, it uses `vite, ts` to w
   
   Saying `developer mode`, press it. after that, in the left upper corner will be a button that says,
 
-  `Load unpacked extension` press it. Choose the dist of Spellex.
+  `Load unpacked extension` press it. Choose the folder of Spellex.
 
   Done!, Spellex will be added to your extensions so you can use it.
 
