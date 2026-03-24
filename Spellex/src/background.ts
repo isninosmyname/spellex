@@ -8,16 +8,17 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     if (request.type === 'CHECK_TEXT') {
         const textToCheck = request.payload.text;
 
-        chrome.storage.sync.get(['openrouterApiKey', 'targetLanguage'], async (result) => {
+        chrome.storage.sync.get(['openrouterApiKey', 'targetLanguage', 'formalityLevel'], async (result) => {
             const apiKey = result.openrouterApiKey as string;
             const targetLanguage = (result.targetLanguage as string) || 'auto';
+            const formalityLevel = (result.formalityLevel as string) || 'standard';
 
             if (!apiKey) {
                 sendResponse({ success: false, error: 'Please set your OpenRouter API key in the extension options.' });
                 return;
             }
 
-            const aiResult = await checkTextWithAI(textToCheck, apiKey, targetLanguage);
+            const aiResult = await checkTextWithAI(textToCheck, apiKey, targetLanguage, formalityLevel);
             sendResponse(aiResult);
         });
 

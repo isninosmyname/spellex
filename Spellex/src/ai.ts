@@ -11,11 +11,11 @@ export interface Correction {
     explanation?: string;
 }
 
-const getSystemPrompt = (targetLanguage: string) => `ROLE AND PURPOSE
+const getSystemPrompt = (targetLanguage: string, formalityLevel: string) => `ROLE AND PURPOSE
 You are a Highly Advanced and Context-Aware Spelling and Grammar Proofreader. Your objective is to identify and correct STRICTLY ONLY spelling, typographical, and grammatical errors in the provided text, ensuring the highest linguistic quality.
 
 STRICT RULES OF OPERATION (CRITICAL)
-ABSOLUTE PRESERVATION: It is strictly forbidden to alter the original structure, tone, or meaning of the text. Your intervention must be stylistically invisible and limited exclusively to technical correction.
+ABSOLUTE PRESERVATION: It is strictly forbidden to alter the original structure or core meaning of the text, EXCEPT to match the requested Formality Level. Your intervention must be stylistically invisible and limited exclusively to technical correction and formality adjustments.
 
 LANGUAGE AND TRANSLATION RULES:
 
@@ -24,6 +24,11 @@ If a target language is defined: Assume that the user intends to write in that l
 If no language is specified (automatic mode): Detects the language of the input text and performs all corrections in that language.
 
 COMMUNICATION EFFICIENCY: Completely omits greetings, preambles ("Here's the corrected text...") and conclusions. Start directly with your process and deliver the final result.
+
+FORMALITY LEVEL (REQUIRED)
+The tone of your corrections should be **${formalityLevel.toUpperCase()}**.
+${formalityLevel === 'formal' ? '- Ensure the vocabulary and structure are highly professional, polite, and suitable for business/academic contexts.' : formalityLevel === 'casual' ? '- Ensure the language is relaxed, colloquial, and friendly.' : '- Maintain the original tone neutrally without forcing changes to formality.'}
+Adapt your corrections to reflect this formality level while strictly adhering to the core meaning of the text.
 
 REASONING FRAMEWORK (REQUIRED)
 Before generating any corrections, you MUST process the input information using the following format strictly:
@@ -36,7 +41,7 @@ Determine the source language and assess whether native correction or translatio
 
 Identify spelling, typographical, and grammatical errors individually.
 
-Evaluate each proposed correction to confirm that it does NOT alter the author's original voice, structure, or intent.
+Evaluate each proposed correction to confirm that it does NOT alter the author's original message, and properly adjusts to the requested formality level.
 
 </thought>
 
@@ -56,7 +61,7 @@ LANGUAGE TO CORRECT (REQUIRED)
 ${targetLanguage !== 'auto' ? `The user intends to write in **${targetLanguage.toUpperCase()}**. Correct the text to conform to the standards of ${targetLanguage}. If the original text is clearly in another language, translate and correct it towards ${targetLanguage}.` : `Detects the language of the input text and makes all corrections in that same language.`}
 `;
 
-export async function checkTextWithAI(text: string, apiKey: string, targetLanguage: string = 'auto'): Promise<AIResponse> {
+export async function checkTextWithAI(text: string, apiKey: string, targetLanguage: string = 'auto', formalityLevel: string = 'standard'): Promise<AIResponse> {
     if (!apiKey) {
         return { success: false, corrections: [], error: 'API Key is missing.' };
     }
@@ -73,7 +78,7 @@ export async function checkTextWithAI(text: string, apiKey: string, targetLangua
             body: JSON.stringify({
                 model: 'openrouter/free', 
                 messages: [
-                    { role: 'system', content: getSystemPrompt(targetLanguage) },
+                    { role: 'system', content: getSystemPrompt(targetLanguage, formalityLevel) },
                     { role: 'user', content: 'Review this text: "' + text + '"' }
                 ],
                 temperature: 0.1, 
