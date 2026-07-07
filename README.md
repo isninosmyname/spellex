@@ -17,7 +17,7 @@ Hello!, *Spellex* is an extension to correct your spell, it uses `vite, ts` to w
 
   # Version
 
-  Spellex's version right now is: `1.2`
+  Spellex's version right now is: `1.3`
 
   # End
 
